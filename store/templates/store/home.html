@@ -1,0 +1,156 @@
+{% extends "store/base.html" %}
+{% block title %}BestPrice India – Find Real Deals, Skip the Fake Ones{% endblock %}
+
+{% block head %}
+<style>
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#3b82f6 100%);
+    padding:64px 20px 72px;text-align:center;color:#fff;position:relative;overflow:hidden;}
+  .hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;
+    background:#f0f4ff;clip-path:ellipse(55% 100% at 50% 100%);}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 16px;font-size:.8rem;
+    margin-bottom:18px;}
+  .hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:12px;}
+  .hero h1 span{color:#86efac;}
+  .hero p{font-size:1rem;opacity:.85;margin-bottom:32px;max-width:560px;margin-left:auto;margin-right:auto;}
+  /* HERO SEARCH */
+  .hero-search-box{max-width:620px;margin:0 auto 24px;display:flex;
+    box-shadow:0 8px 32px rgba(0,0,0,.25);border-radius:12px;overflow:hidden;}
+  .hero-search-box input{flex:1;border:none;padding:16px 22px;font-size:1rem;outline:none;min-width:0;}
+  .hero-search-box button{background:#f59e0b;color:#fff;border:none;padding:16px 28px;
+    font-size:1rem;font-weight:800;cursor:pointer;white-space:nowrap;}
+  .hero-search-box button:hover{background:#d97706;}
+  .store-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .store-badge{border-radius:20px;padding:5px 16px;font-size:.8rem;font-weight:700;border:none;cursor:default;}
+
+  /* SECTIONS */
+  .page-wrap{max-width:1260px;margin:0 auto;padding:32px 16px 0;}
+  .section-box{background:#fff;border-radius:20px;padding:28px;margin-bottom:22px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);}
+  .sec-title{font-size:1.35rem;font-weight:800;color:#1e293b;margin-bottom:4px;}
+  .sec-sub{font-size:.78rem;color:#6366f1;font-weight:600;margin-bottom:20px;}
+
+  /* HOT DEAL CARDS */
+  .deal-card{display:block;background:linear-gradient(135deg,#eef2ff,#e0e7ff);
+    border:1px solid #c7d2fe;border-radius:14px;padding:22px 12px;text-align:center;
+    transition:transform .18s,box-shadow .18s;cursor:pointer;}
+  .deal-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(99,102,241,.2);color:inherit;}
+  .deal-label{font-size:.7rem;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:1px;}
+  .deal-price{font-size:1.9rem;font-weight:900;color:#3730a3;line-height:1.1;}
+
+  /* DISCOUNT CARDS */
+  .disc-card{display:block;background:linear-gradient(135deg,#fff7ed,#fef3c7);
+    border:1px solid #fcd34d;border-radius:14px;padding:22px 12px;text-align:center;
+    transition:transform .18s,box-shadow .18s;cursor:pointer;}
+  .disc-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(251,146,60,.22);color:inherit;}
+  .disc-min{font-size:.7rem;color:#b45309;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+  .disc-pct{font-size:2rem;font-weight:900;color:#b45309;line-height:1;}
+  .disc-off{font-size:.78rem;color:#92400e;font-weight:600;}
+
+  /* CATEGORY CARDS */
+  .cat-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;
+    border-radius:14px;padding:18px 16px;transition:transform .18s,box-shadow .18s;cursor:pointer;}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(37,99,235,.12);color:inherit;}
+  .cat-emoji{font-size:2.4rem;flex-shrink:0;}
+  .cat-lbl{font-size:.68rem;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+  .cat-price{font-size:1.2rem;font-weight:900;color:#1d4ed8;}
+  .cat-name{font-size:.85rem;font-weight:700;color:#374151;margin-top:1px;}
+
+  /* RECENT */
+  .chip{display:inline-block;background:#fff;border:1px solid #dde1f0;border-radius:20px;
+    padding:5px 14px;font-size:.8rem;color:#2563eb;margin:3px;transition:background .15s;}
+  .chip:hover{background:#dbeafe;color:#1d4ed8;}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO --><br>
+<section class="hero">
+  <h1>Find <span>Real Deals</span><br>Skip the Fake Ones</h1>
+  <p>Compare prices across Amazon, Snapdeal, JioMart, AJIO, TataCLiQ &amp; ShopClues and shop smarter every day</p>
+
+  <form class="hero-search-box" action="/search/" method="get">
+    <input type="text" name="q" placeholder="Search mobiles, laptops, shoes, TVs…" required
+           autocomplete="off"/>
+    <button type="submit"><i class="bi bi-search me-1"></i>Search</button>
+  </form>
+
+  <div class="store-row">
+    <span class="store-badge b-amazon">Amazon</span>
+    <span class="store-badge b-snapdeal">Snapdeal</span>
+    <span class="store-badge b-jiomart">JioMart</span>
+    <span class="store-badge b-ajio">AJIO</span>
+    <span class="store-badge b-tatacliq">TataCLiQ</span>
+    <span class="store-badge b-shopclues">ShopClues</span>
+  </div>
+</section>
+
+<div class="page-wrap">
+
+  <!-- Recent Searches -->
+  {% if recent %}
+  <div style="margin-bottom:18px;">
+    <span style="font-size:.82rem;color:#64748b;font-weight:600;"><i class="bi bi-clock-history me-1"></i>Recent:</span>
+    {% for q in recent %}
+    <a href="/search/?q={{ q|urlencode }}" class="chip"><i class="bi bi-search me-1"></i>{{ q }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- HOT DEALS -->
+  <div class="section-box" id="deals">
+    <div class="sec-title">🔥 Hot Deals</div>
+    <div class="sec-sub"><i class="bi bi-stars"></i> Powered by Smart Deal Scanner</div>
+    <div class="row g-3">
+      {% for price in hot_deals %}
+      <div class="col-6 col-sm-4 col-md-3">
+        <a href="/search/?q=best+deal&max_price={{ price }}&sort=price_asc" class="deal-card">
+          <div class="deal-label">Deals Under</div>
+          <div class="deal-price">₹{{ price }}</div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- BEST DISCOUNTS -->
+  <div class="section-box" id="discount">
+    <div class="sec-title">🏷️ Best Discounts</div>
+    <div class="sec-sub"><i class="bi bi-stars"></i> Powered by Smart Deal Scanner</div>
+    <div class="row g-3">
+      {% for pct in discounts %}
+      <div class="col-6 col-md-3">
+        <a href="/search/?q=sale+discount&sort=price_asc" class="disc-card">
+          <div class="disc-min">Min.</div>
+          <div class="disc-pct">{{ pct }}%</div>
+          <div class="disc-off">off</div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section-box" id="categories">
+    <div class="sec-title">🛒 Shop by Categories</div>
+    <div class="sec-sub"><i class="bi bi-stars"></i> Powered by Smart Deal Scanner</div>
+    <div class="row g-3">
+      {% for cat in categories %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="/search/?q={{ cat.query|urlencode }}&sort=price_asc" class="cat-card">
+          <div class="cat-emoji">{{ cat.emoji }}</div>
+          <div>
+            <div class="cat-lbl">{{ cat.label }}</div>
+            <div class="cat-price">{{ cat.price }}</div>
+            <div class="cat-name">{{ cat.name }}</div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+{% endblock %}

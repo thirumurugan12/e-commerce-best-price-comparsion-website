@@ -1,0 +1,128 @@
+{% extends "store/base.html" %}
+{% block title %}Login / Register – BestPrice India{% endblock %}
+
+{% block head %}
+<style>
+  .auth-wrap{min-height:calc(100vh - 120px);display:flex;align-items:center;
+    justify-content:center;padding:32px 16px;}
+  .auth-box{background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(37,99,235,.12);
+    width:100%;max-width:440px;overflow:hidden;}
+  .auth-header{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:32px;text-align:center;color:#fff;}
+  .auth-header h2{font-size:1.6rem;font-weight:900;margin-bottom:4px;}
+  .auth-header p{opacity:.85;font-size:.9rem;margin:0;}
+  .auth-tabs{display:flex;border-bottom:2px solid #e8eaf0;}
+  .auth-tab{flex:1;text-align:center;padding:14px;font-weight:700;font-size:.9rem;
+    cursor:pointer;color:#64748b;border-bottom:3px solid transparent;transition:all .2s;background:#fff;}
+  .auth-tab.active{color:#2563eb;border-bottom-color:#2563eb;}
+  .auth-body{padding:28px;}
+  .form-section{display:none;}
+  .form-section.active{display:block;}
+  .form-group{margin-bottom:16px;}
+  .form-group label{font-size:.83rem;font-weight:700;color:#374151;display:block;margin-bottom:6px;}
+  .form-group input{width:100%;border:2px solid #e2e8f0;border-radius:9px;padding:11px 14px;
+    font-size:.9rem;outline:none;transition:border .2s;}
+  .form-group input:focus{border-color:#2563eb;}
+  .submit-btn{width:100%;background:#2563eb;color:#fff;border:none;border-radius:10px;
+    padding:13px;font-size:1rem;font-weight:800;cursor:pointer;margin-top:4px;}
+  .submit-btn:hover{background:#1d4ed8;}
+  .error-msg{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:9px;
+    padding:10px 14px;font-size:.85rem;margin-bottom:16px;font-weight:600;}
+  .divider{text-align:center;color:#94a3b8;font-size:.8rem;margin:14px 0;position:relative;}
+  .divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:#e2e8f0;}
+  .divider::before{left:0;} .divider::after{right:0;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-box">
+
+    <div class="auth-header">
+      <div style="font-size:2.5rem;margin-bottom:8px;">👋</div>
+      <h2>Welcome to BestPrice</h2>
+      <p>Login or create an account to continue</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+      </div>
+      <div class="auth-tab" id="tab-register" onclick="switchTab('register')">
+        <i class="bi bi-person-plus me-1"></i>Register
+      </div>
+    </div>
+
+    <div class="auth-body">
+
+      {% if error %}
+      <div class="error-msg"><i class="bi bi-exclamation-circle me-1"></i>{{ error }}</div>
+      {% endif %}
+
+      <!-- LOGIN FORM -->
+      <div class="form-section active" id="form-login">
+        <form method="post" action="/login/">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="login"/>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required autocomplete="username"/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required autocomplete="current-password"/>
+          </div>
+          <button type="submit" class="submit-btn"><i class="bi bi-box-arrow-in-right me-2"></i>Login</button>
+        </form>
+        <div class="divider">or</div>
+        <p style="text-align:center;font-size:.85rem;color:#64748b;">
+          Don't have an account?
+          <a href="#" onclick="switchTab('register')" style="color:#2563eb;font-weight:700;">Register here</a>
+        </p>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="form-section" id="form-register">
+        <form method="post" action="/login/">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="register"/>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Choose a username" required autocomplete="username"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Your email address" autocomplete="email"/>
+          </div>
+          <div class="form-group">
+            <label>Password <span style="font-size:.75rem;color:#94a3b8;">(min 6 chars)</span></label>
+            <input type="password" name="password" placeholder="Create a password" required autocomplete="new-password"/>
+          </div>
+          <button type="submit" class="submit-btn"><i class="bi bi-person-check me-2"></i>Create Account</button>
+        </form>
+        <div class="divider">or</div>
+        <p style="text-align:center;font-size:.85rem;color:#64748b;">
+          Already have an account?
+          <a href="#" onclick="switchTab('login')" style="color:#2563eb;font-weight:700;">Login here</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function switchTab(tab) {
+  document.getElementById('form-login').classList.remove('active');
+  document.getElementById('form-register').classList.remove('active');
+  document.getElementById('tab-login').classList.remove('active');
+  document.getElementById('tab-register').classList.remove('active');
+  document.getElementById('form-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+// If there was a register error, stay on register tab
+{% if error and request.POST.action == 'register' %}switchTab('register');{% endif %}
+</script>
+{% endblock %}
